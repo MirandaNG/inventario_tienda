@@ -1,0 +1,99 @@
+
+body {
+    background-color: #2e2e2e;
+    color: white; 
+}
+
+.sidebar {
+    background-color: #181818;  
+    height: 100vh; 
+    padding-top: 20px;
+}
+
+.sidebar .list-group-item {
+    background-color: transparent; 
+    color: white; 
+    border: none; 
+}
+
+.sidebar .list-group-item:hover {
+    color: #b9b9b9; 
+    background-color: #292929; 
+    cursor: pointer;
+}
+
+
+.sidebar h3 {
+    color: white;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.card {
+    cursor: pointer;
+    border-radius: 10px;
+    transition: transform 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-entradas {
+    background-color: #4CAF50; /* Verde */
+    color: white;
+}
+
+.card-entradas:hover {
+    color: #b2e0b3; 
+    background-color: #56ca5a; 
+    cursor: pointer;
+}
+
+.card-salidas {
+    background-color: #FF5722; /* Naranja */
+    color: white;
+}
+
+.card-salidas:hover {
+    color: #e4c6bd;
+    background-color: #fc6132;
+    cursor: pointer;
+}
+
+.card-productos {
+    background-color: #2196F3; /* Azul */
+    color: white;
+}
+
+.card-productos:hover {
+    color: #b3cee4;
+    background-color: #48a8f7;
+    cursor: pointer;
+}
+
+.card-proveedores {
+    background-color: #FFC107; /* Amarillo */
+    color: white;
+}
+
+.card-proveedores:hover {
+    color: #e2d7b6;
+    background-color: #fccc3c;
+    cursor: pointer;
+}
+
+.card img {
+    width: 40px;
+    height: 40px;
+}
+
+.card span {
+    font-weight: 500;
+    color: #fff;
+}
+
+.row {
+    margin-top: 20px;
+}
