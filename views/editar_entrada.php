@@ -4,12 +4,34 @@ include '../config/conexion.php';
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
     $entrada = $conexion->query("SELECT * FROM entradas WHERE entra_id = '$id'")->fetch_assoc();
+
+    if (!$entrada) {
+        header("Location: entradas.php?error=Entrada no encontrada");
+        exit();
+    }
+
+    $producto_id = $entrada['prod_id'];  // Obtener el ID del producto de la entrada
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $cantidad = $_POST['cantidad'];
     $fecha = $_POST['fecha'];
 
+    // Obtener la cantidad original de la entrada
+    $cantidad_original = $entrada['entra_cantidad'];
+
+    // Verificar si la cantidad se ha modificado
+    if ($cantidad !== $cantidad_original) {
+        // Revertir el stock anterior (restar la cantidad original)
+        $query_revertir_stock = "UPDATE productos SET prod_stock = prod_stock - $cantidad_original WHERE prod_id = '$producto_id'";
+        $conexion->query($query_revertir_stock);
+
+        // Actualizar el stock con la nueva cantidad (sumar la nueva cantidad)
+        $query_actualizar_stock = "UPDATE productos SET prod_stock = prod_stock + $cantidad WHERE prod_id = '$producto_id'";
+        $conexion->query($query_actualizar_stock);
+    }
+
+    // Actualizar la entrada en la base de datos
     $query = "UPDATE entradas SET entra_cantidad = '$cantidad', entra_fecha = '$fecha' WHERE entra_id = '$id'";
     if ($conexion->query($query) === TRUE) {
         header("Location: entradas.php?success=Entrada actualizada correctamente");

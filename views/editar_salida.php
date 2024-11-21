@@ -9,6 +9,8 @@ if (isset($_GET['id'])) {
         header("Location: salidas.php?error=Salida no encontrada");
         exit();
     }
+
+    $producto_id = $salida['prod_id'];  // Obtener el ID del producto de la salida
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -16,6 +18,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $fecha = $_POST['fecha'];
     $motivo = $_POST['motivo'];
 
+    // Obtener la cantidad original de la salida
+    $cantidad_original = $salida['sal_cantidad'];
+
+    // Verificar si la cantidad se ha modificado
+    if ($cantidad !== $cantidad_original) {
+        // Revertir el stock anterior (sumar la cantidad original)
+        $query_revertir_stock = "UPDATE productos SET prod_stock = prod_stock + $cantidad_original WHERE prod_id = '$producto_id'";
+        $conexion->query($query_revertir_stock);
+
+        // Actualizar el stock con la nueva cantidad (restar la nueva cantidad)
+        $query_actualizar_stock = "UPDATE productos SET prod_stock = prod_stock - $cantidad WHERE prod_id = '$producto_id'";
+        $conexion->query($query_actualizar_stock);
+    }
+
+    // Actualizar la salida en la base de datos
     $query = "UPDATE salidas SET sal_cantidad = '$cantidad', sal_fecha = '$fecha', sal_motivo = '$motivo' WHERE sal_id = '$id'";
     if ($conexion->query($query) === TRUE) {
         header("Location: salidas.php?success=Salida actualizada correctamente");

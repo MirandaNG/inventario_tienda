@@ -1,34 +1,51 @@
 <?php
-    // Iniciar sesión
-    session_start();
-    include '../config/conexion.php'; 
+// Iniciar sesión
+session_start();
+include '../config/conexion.php';
 
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        // Obtener los datos del formulario
-        $producto_id = $_POST['producto_id'];
-        $cantidad = $_POST['cantidad'];
-        $fecha = $_POST['fecha'];
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Obtener los datos del formulario
+    $producto_id = $_POST['producto_id'];
+    $cantidad = $_POST['cantidad'];
+    $fecha = $_POST['fecha'];
 
+    // Iniciar una transacción para asegurar consistencia
+    $conexion->begin_transaction();
+
+    try {
         // Consulta para insertar la nueva entrada en la base de datos
-        $query = "INSERT INTO entradas (prod_id, entra_cantidad, entra_fecha) VALUES ('$producto_id', '$cantidad', '$fecha')";
-        
-        if ($conexion->query($query) === TRUE) {
-            // Almacenar el mensaje de éxito en la sesión
-            $_SESSION['mensaje'] = 'Entrada agregada correctamente';
-            $_SESSION['mensaje_tipo'] = 'success';  // Tipo de mensaje: éxito
-            // Redirigir a la página de entradas después de agregar la entrada
-            header("Location: entradas.php");
-            exit();
-        } else {
-            // Almacenar el mensaje de error en la sesión
-            $_SESSION['mensaje'] = 'Error al agregar entrada: ' . $conexion->error;
-            $_SESSION['mensaje_tipo'] = 'danger';  // Tipo de mensaje: error
+        $query_entrada = "INSERT INTO entradas (prod_id, entra_cantidad, entra_fecha) VALUES ('$producto_id', '$cantidad', '$fecha')";
+        if (!$conexion->query($query_entrada)) {
+            throw new Exception("Error al registrar la entrada: " . $conexion->error);
         }
+
+        // Consulta para actualizar el inventario (sumar la cantidad al stock actual)
+        $query_actualizar_stock = "UPDATE productos SET prod_stock = prod_stock + $cantidad WHERE prod_id = '$producto_id'";
+        if (!$conexion->query($query_actualizar_stock)) {
+            throw new Exception("Error al actualizar el inventario: " . $conexion->error);
+        }
+
+        // Si ambas consultas son exitosas, confirmar la transacción
+        $conexion->commit();
+        // Almacenar el mensaje de éxito en la sesión
+        $_SESSION['mensaje'] = 'Entrada agregada correctamente y stock actualizado';
+        $_SESSION['mensaje_tipo'] = 'success';  // Tipo de mensaje: éxito
+    } catch (Exception $e) {
+        // Si ocurre un error, deshacer la transacción
+        $conexion->rollback();
+        // Almacenar el mensaje de error en la sesión
+        $_SESSION['mensaje'] = 'Error: ' . $e->getMessage();
+        $_SESSION['mensaje_tipo'] = 'danger';  // Tipo de mensaje: error
     }
 
-    // Obtener los productos para el dropdown
-    $productos_query = "SELECT * FROM productos";
-    $productos_result = $conexion->query($productos_query);
+    // Redirigir a la página de entradas después de agregar la entrada
+    header("Location: entradas.php");
+    exit();
+}
+
+// Obtener los productos para el dropdown
+$productos_query = "SELECT * FROM productos";
+$productos_result = $conexion->query($productos_query);
 ?>
 
 <!DOCTYPE html>
@@ -92,4 +109,3 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>
-
