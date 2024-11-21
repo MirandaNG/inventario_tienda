@@ -97,3 +97,28 @@ body {
 .row {
     margin-top: 20px;
 }
+
+.custom-table {
+    margin: 20px auto; 
+    width: 86%;
+    border-radius: 8px; 
+    overflow: hidden; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+}
+
+.custom-table th, .custom-table td {
+    text-align: center; 
+    vertical-align: middle; 
+    padding: 10px; 
+}
+
+.custom-table th {
+    background-color: #1a1a1a; 
+    color: #ffffff; 
+    font-weight: bold;
+}
+
+.custom-table td {
+    background-color: #272727; 
+    color: #ffffff; 
+}
