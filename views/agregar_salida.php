@@ -45,36 +45,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Agregar Salida</title>
 </head>
 <body>
-    <div class="container">
-        <h2>Agregar Salida</h2>
-        <form action="" method="POST">
-            <div class="mb-3">
-                <label for="producto_id" class="form-label">Producto</label>
-                <select name="producto_id" id="producto_id" class="form-control" required>
-                    <?php
-                    // Obtener todos los productos para mostrarlos en el dropdown
-                    $productos = $conexion->query("SELECT * FROM productos");
-                    while ($producto = $productos->fetch_assoc()) {
-                        echo "<option value='" . $producto['prod_id'] . "'>" . $producto['prod_nombre'] . "</option>";
-                    }
-                    ?>
-                </select>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Barra lateral -->
+            <?php include 'sidebar.php'; ?>
+            
+            <!-- Contenido principal -->
+            <div class="col-md-7 main-content">
+                <h2>Agregar Salida</h2>
+                <form action="" method="POST">
+                    <div class="mb-3">
+                        <label for="producto_id" class="form-label">Producto</label>
+                        <select name="producto_id" id="producto_id" class="form-control" required>
+                            <?php
+                            // Obtener todos los productos para mostrarlos en el dropdown
+                            $productos = $conexion->query("SELECT * FROM productos");
+                            while ($producto = $productos->fetch_assoc()) {
+                                echo "<option value='" . $producto['prod_id'] . "'>" . $producto['prod_nombre'] . "</option>";
+                            }
+                            ?>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="cantidad" class="form-label">Cantidad</label>
+                        <input type="number" name="cantidad" id="cantidad" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="fecha" class="form-label">Fecha</label>
+                        <input type="date" name="fecha" id="fecha" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="motivo" class="form-label">Motivo</label>
+                        <textarea name="motivo" id="motivo" class="form-control" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Agregar</button>
+                    <a href="salidas.php" class="btn btn-secondary">Cancelar</a>
+                </form>
             </div>
-            <div class="mb-3">
-                <label for="cantidad" class="form-label">Cantidad</label>
-                <input type="number" name="cantidad" id="cantidad" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label for="fecha" class="form-label">Fecha</label>
-                <input type="date" name="fecha" id="fecha" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label for="motivo" class="form-label">Motivo</label>
-                <textarea name="motivo" id="motivo" class="form-control" required></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Agregar</button>
-        </form>
+        </div>
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>

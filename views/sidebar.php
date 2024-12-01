@@ -7,6 +7,5 @@
         <a href="salidas.php" class="list-group-item list-group-item-action">Salidas</a>
         <a href="productos.php" class="list-group-item list-group-item-action">Productos</a>
         <a href="proveedores.php" class="list-group-item list-group-item-action">Proveedores</a>
-        <a href="ordenes.php" class="list-group-item list-group-item-action">Órdenes de Compra</a>
     </ul>
 </div>

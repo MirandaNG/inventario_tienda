@@ -14,6 +14,7 @@ if (isset($_GET['id'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $prod_nombre = $_POST['prod_nombre'];
     $cantidad = $_POST['cantidad'];
     $fecha = $_POST['fecha'];
 
@@ -63,6 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <input type="date" name="fecha" id="fecha" class="form-control" value="<?php echo $entrada['entra_fecha']; ?>" required>
             </div>
             <button type="submit" class="btn btn-primary">Actualizar</button>
+            <a href="entradas.php" class="btn btn-secondary">Cancelar</a>
         </form>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

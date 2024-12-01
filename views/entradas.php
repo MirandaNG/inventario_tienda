@@ -32,7 +32,7 @@
 
                 <!-- Botón para agregar entrada -->
                 <div class="mb-3">
-                    <a href="agregar_entrada.php" class="btn btn-primary">Agregar Entrada</a>
+                    <a href="agregar_entrada.php" class="btn btn-agregar">Agregar Entrada</a>
                 </div>
 
                 <!-- Tabla de entradas -->

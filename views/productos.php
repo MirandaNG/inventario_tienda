@@ -39,7 +39,7 @@ $productos_result = $conexion->query($productos_query);
 
                 <!-- Botón para agregar producto -->
                 <div class="mb-3">
-                    <a href="agregar_producto.php" class="btn btn-primary">Agregar Producto</a>
+                    <a href="agregar_producto.php" class="btn btn-agregar">Agregar Producto</a>
                 </div>
 
                 <!-- Tabla de productos -->

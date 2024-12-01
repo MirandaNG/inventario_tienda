@@ -79,10 +79,10 @@ $productos_result = $conexion->query($productos_query);
                 ?>
 
                 <!-- Formulario de agregar entrada -->
-                <form method="POST">
+                <form action="" method="POST">
                     <div class="mb-3">
                         <label for="producto_id" class="form-label">Producto</label>
-                        <select class="form-select" id="producto_id" name="producto_id" required>
+                        <select class="form-control" id="producto_id" name="producto_id" required>
                             <option value="">Selecciona un producto</option>
                             <?php while ($row = $productos_result->fetch_assoc()) { ?>
                                 <option value="<?php echo $row['prod_id']; ?>"><?php echo $row['prod_nombre']; ?></option>
@@ -101,6 +101,7 @@ $productos_result = $conexion->query($productos_query);
                     </div>
 
                     <button type="submit" class="btn btn-primary">Agregar Entrada</button>
+                    <a href="entradas.php" class="btn btn-secondary">Cancelar</a>
                 </form>
             </div>
         </div>
